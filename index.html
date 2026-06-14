@@ -1,259 +1,365 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Otto ❤️ Melissa</title>
+<title>Jogo do Amor 💜</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
 body{
-    background:linear-gradient(#ffb6c1,#ffe4e1);
+    margin:0;
+    font-family:Arial;
+    background:#0b001a;
     color:white;
+    overflow:hidden;
     text-align:center;
-    overflow-x:hidden;
-    min-height:100vh;
 }
 
-.container{
-    padding:40px 20px;
-}
-
-h1{
-    font-size:2.8em;
-    margin-top:30px;
-}
-
-h2{
-    margin-top:20px;
-}
-
-p{
-    margin-top:20px;
-    font-size:1.2em;
-}
-
-.botao{
-    margin-top:20px;
-    padding:15px 30px;
-    border:none;
-    border-radius:30px;
-    background:#ff2e63;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
-
-#surpresa{
+/* ===== TELAS ===== */
+.tela{
     display:none;
-    margin-top:50px;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
 }
 
-.coracao{
-    position:fixed;
-    top:-20px;
-    color:#ff3366;
-    font-size:25px;
-    animation:cair linear infinite;
+#gameScreen{
+    display:flex;
 }
 
-@keyframes cair{
-    to{
-        transform:translateY(110vh);
-    }
+/* ===== GAME ===== */
+#gameArea{
+    position:relative;
+    width:100%;
+    height:100vh;
 }
 
-.tesouro{
+/* nave */
+#ship{
     position:absolute;
+    bottom:120px;
+    left:50%;
     font-size:40px;
-    cursor:pointer;
+    transform:translateX(-50%);
 }
 
-#c1{top:500px;left:10%;}
-#c2{top:800px;left:80%;}
-#c3{top:1100px;left:20%;}
-#c4{top:1400px;left:70%;}
-#c5{top:1700px;left:40%;}
+/* inimigos */
+.enemy{
+    position:absolute;
+    font-size:30px;
+}
 
-footer{
-    margin-top:120px;
-    margin-bottom:100px;
+/* tiro */
+.bullet{
+    position:absolute;
+    width:5px;
+    height:15px;
+    background:white;
+}
+
+/* HUD */
+#hud{
+    position:absolute;
+    top:10px;
+    left:10px;
+}
+
+/* joystick */
+#joystick{
+    position:fixed;
+    bottom:30px;
+    left:30px;
+    width:120px;
+    height:120px;
+    background:rgba(255,255,255,0.1);
+    border-radius:50%;
+}
+
+#stick{
+    width:50px;
+    height:50px;
+    background:#a855f7;
+    border-radius:50%;
+    position:absolute;
+    left:35px;
+    top:35px;
+}
+
+/* botão tiro */
+#shootBtn{
+    position:fixed;
+    bottom:40px;
+    right:40px;
+    width:80px;
+    height:80px;
+    background:#a855f7;
+    border-radius:50%;
+    font-size:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 15px #a855f7;
+}
+
+/* ===== FINAL ===== */
+#finalScreen{
+    display:none;
+    padding:20px;
+}
+
+/* timer */
+#timer{
+    margin:20px;
+    font-size:18px;
+}
+
+/* mensagem */
+#msg{
+    font-size:20px;
+    margin-top:20px;
+}
+
+/* estrelas cadentes */
+#starsFinal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    box-shadow:0 0 10px white;
+    animation:fall 1.5s linear forwards;
+}
+
+@keyframes fall{
+    from{transform:translate(0,0);opacity:1;}
+    to{transform:translate(300px,600px);opacity:0;}
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<!-- ===== GAME ===== -->
+<div id="gameScreen" class="tela" style="display:flex;">
 
-<h1>❤️ Otto & Melissa ❤️</h1>
-
-<h2 id="contador"></h2>
-
-<p>
-Cada dia ao seu lado é um presente, Melissa.
-Este pequeno site foi feito com muito carinho só para você. 💕
-</p>
-
-<p>
-Obrigado por todas as risadas, pelos momentos juntos
-e por fazer meus dias mais felizes. ❤️
-</p>
-
-<h2 style="margin-top:60px;">
-Encontre os 5 corações escondidos ❤️
-</h2>
-
-<p id="progresso">0/5 encontrados</p>
-
-<div class="tesouro" id="c1" onclick="encontrou(this)">❤️</div>
-<div class="tesouro" id="c2" onclick="encontrou(this)">❤️</div>
-<div class="tesouro" id="c3" onclick="encontrou(this)">❤️</div>
-<div class="tesouro" id="c4" onclick="encontrou(this)">❤️</div>
-<div class="tesouro" id="c5" onclick="encontrou(this)">❤️</div>
-
-<div id="surpresa">
-
-<h2>🎉 Parabéns, Princesa!</h2>
-
-<p>
-Você encontrou todos os corações,
-mas a verdade é que você já encontrou o meu há muito tempo. ❤️
-</p>
-
-<p>
-Eu te amo muito e espero viver muitos momentos ao seu lado. 💕
-</p>
-
-<h2>
-Melissa, promete continuar criando memórias comigo? ❤️
-</h2>
-
-<button class="botao"
-onclick="alert('Eu te amo muito, Melissa! ❤️')">
-Sim!
-</button>
-
-<button
-class="botao"
-id="nao"
-ontouchstart="fugir()"
-onclick="fugir()">
-Não
-</button>
-
-<h3 style="margin-top:30px;">
-❤️ Otto + Melissa desde 28/12/2025 ❤️
-</h3>
+<div id="gameArea">
+    <div id="hud">Pontos: <span id="points">0</span></div>
+    <div id="ship">🚀</div>
+</div>
 
 </div>
 
-<footer>
-💕 Feito com amor por Otto 💕
-</footer>
+<!-- joystick -->
+<div id="joystick">
+    <div id="stick"></div>
+</div>
+
+<!-- tiro -->
+<div id="shootBtn" onclick="shoot()">🔫</div>
+
+<!-- ===== FINAL ===== -->
+<div id="finalScreen" class="tela">
+
+<h1>💜 Você chegou no final 💜</h1>
+
+<div id="timer"></div>
+
+<h3 id="msg"></h3>
+
+<div id="starsFinal"></div>
 
 </div>
 
 <script>
 
-const dataNamoro = new Date("2025-12-28");
+let ship = document.getElementById("ship");
+let points = 0;
 
-function atualizarContador() {
-    const hoje = new Date();
+/* ===== JOYSTICK ===== */
+let joystick = document.getElementById("joystick");
+let stick = document.getElementById("stick");
 
-    let anos = hoje.getFullYear() - dataNamoro.getFullYear();
-    let meses = hoje.getMonth() - dataNamoro.getMonth();
-    let dias = hoje.getDate() - dataNamoro.getDate();
+let dragging=false;
 
-    if (dias < 0) {
-        meses--;
-        const ultimoMes =
-            new Date(
-                hoje.getFullYear(),
-                hoje.getMonth(),
-                0
-            ).getDate();
+joystick.addEventListener("touchstart",()=>dragging=true);
 
-        dias += ultimoMes;
-    }
+joystick.addEventListener("touchend",()=>{
+    dragging=false;
+    stick.style.left="35px";
+});
 
-    if (meses < 0) {
-        anos--;
-        meses += 12;
-    }
+joystick.addEventListener("touchmove",(e)=>{
+    if(!dragging) return;
 
-    document.getElementById("contador").innerHTML =
-        `❤️ Estamos juntos há ${anos} ano(s), ${meses} mês(es) e ${dias} dia(s). ❤️`;
-}
+    let t=e.touches[0];
+    let r=joystick.getBoundingClientRect();
 
-atualizarContador();
+    let x=t.clientX - r.left - 60;
 
-function criarCoracao(){
-    const coracao = document.createElement("div");
+    stick.style.left=(x+35)+"px";
 
-    coracao.classList.add("coracao");
-    coracao.innerHTML = "❤";
+    ship.style.left=(ship.offsetLeft + x*0.05)+"px";
+});
 
-    coracao.style.left =
-        Math.random() * window.innerWidth + "px";
+/* ===== TIRO ===== */
+function shoot(){
 
-    coracao.style.animationDuration =
-        (Math.random() * 4 + 3) + "s";
+    const bullet=document.createElement("div");
+    bullet.className="bullet";
 
-    document.body.appendChild(coracao);
+    let r=ship.getBoundingClientRect();
 
-    setTimeout(() => {
-        coracao.remove();
-    },7000);
-}
+    bullet.style.left=r.left+20+"px";
+    bullet.style.top=r.top+"px";
 
-setInterval(criarCoracao,300);
+    document.body.appendChild(bullet);
 
-let encontrados = 0;
+    let move=setInterval(()=>{
 
-function encontrou(coracao){
-    coracao.style.display = "none";
+        bullet.style.top=bullet.offsetTop-10+"px";
 
-    encontrados++;
+        document.querySelectorAll(".enemy").forEach(e=>{
+            if(hit(bullet,e)){
+                e.remove();
+                bullet.remove();
 
-    document.getElementById("progresso")
-        .innerHTML =
-        `${encontrados}/5 encontrados`;
+                points++;
+                document.getElementById("points").innerText=points;
 
-    if(encontrados === 5){
-        document.getElementById("surpresa")
-            .style.display = "block";
-
-        window.scrollTo({
-            top:document.body.scrollHeight,
-            behavior:"smooth"
+                if(points===5){
+                    goFinal();
+                }
+            }
         });
-    }
+
+    },20);
 }
 
-function fugir(){
-    const botao =
-        document.getElementById("nao");
+/* colisão */
+function hit(a,b){
+    let r1=a.getBoundingClientRect();
+    let r2=b.getBoundingClientRect();
 
-    botao.style.position = "fixed";
+    return !(r1.right<r2.left || r1.left>r2.right || r1.bottom<r2.top || r1.top>r2.bottom);
+}
 
-    botao.style.left =
-        Math.random() *
-        (window.innerWidth - 120) + "px";
+/* inimigos */
+function spawn(){
 
-    botao.style.top =
-        Math.random() *
-        (window.innerHeight - 60) + "px";
+    setInterval(()=>{
+
+        let e=document.createElement("div");
+        e.className="enemy";
+        e.innerHTML="👾";
+
+        e.style.left=Math.random()*window.innerWidth+"px";
+        e.style.top="0px";
+
+        document.body.appendChild(e);
+
+        let fall=setInterval(()=>{
+
+            e.style.top=e.offsetTop+4+"px";
+
+            if(e.offsetTop>window.innerHeight){
+                e.remove();
+                clearInterval(fall);
+            }
+
+        },30);
+
+    },1000);
+}
+
+spawn();
+
+/* ===== FINAL ===== */
+const mensagens=[
+"Você não venceu o jogo... você venceu meu coração 💜",
+"Cada segundo com você vale mais que qualquer vitória",
+"Se isso é um jogo, você já é meu final feliz",
+"Eu te escolheria em qualquer universo",
+"Obrigado por existir 💜"
+];
+
+let i=0;
+
+function goFinal(){
+
+    document.getElementById("gameScreen").style.display="none";
+    document.getElementById("joystick").style.display="none";
+    document.getElementById("shootBtn").style.display="none";
+
+    document.getElementById("finalScreen").style.display="flex";
+
+    startTimer();
+    startMessages();
+    startStars();
+}
+
+/* TIMER */
+const startDate=new Date("2025-12-28T00:00:00");
+
+function startTimer(){
+
+    setInterval(()=>{
+
+        let now=new Date();
+        let diff=now-startDate;
+
+        let d=Math.floor(diff/(1000*60*60*24));
+        let h=Math.floor(diff/(1000*60*60)%24);
+        let m=Math.floor(diff/(1000*60)%60);
+        let s=Math.floor(diff/1000%60);
+
+        document.getElementById("timer").innerHTML=
+        `💜 Juntos há: ${d}d ${h}h ${m}m ${s}s`;
+
+    },1000);
+}
+
+/* MENSAGENS */
+function startMessages(){
+
+    setInterval(()=>{
+
+        document.getElementById("msg").innerHTML=mensagens[i];
+
+        i++;
+        if(i>=mensagens.length) i=0;
+
+    },3000);
+}
+
+/* ESTRELAS CADENTES */
+function star(){
+
+    let s=document.createElement("div");
+    s.className="star";
+
+    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.top=Math.random()*window.innerHeight/2+"px";
+
+    document.getElementById("starsFinal").appendChild(s);
+
+    setTimeout(()=>s.remove(),1500);
+}
+
+function startStars(){
+    setInterval(star,500);
 }
 
 </script>
 
 </body>
 </html>
-```
