@@ -1,0 +1,259 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otto ❤️ Melissa</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(#ffb6c1,#ffe4e1);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+
+.container{
+    padding:40px 20px;
+}
+
+h1{
+    font-size:2.8em;
+    margin-top:30px;
+}
+
+h2{
+    margin-top:20px;
+}
+
+p{
+    margin-top:20px;
+    font-size:1.2em;
+}
+
+.botao{
+    margin-top:20px;
+    padding:15px 30px;
+    border:none;
+    border-radius:30px;
+    background:#ff2e63;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#surpresa{
+    display:none;
+    margin-top:50px;
+}
+
+.coracao{
+    position:fixed;
+    top:-20px;
+    color:#ff3366;
+    font-size:25px;
+    animation:cair linear infinite;
+}
+
+@keyframes cair{
+    to{
+        transform:translateY(110vh);
+    }
+}
+
+.tesouro{
+    position:absolute;
+    font-size:40px;
+    cursor:pointer;
+}
+
+#c1{top:500px;left:10%;}
+#c2{top:800px;left:80%;}
+#c3{top:1100px;left:20%;}
+#c4{top:1400px;left:70%;}
+#c5{top:1700px;left:40%;}
+
+footer{
+    margin-top:120px;
+    margin-bottom:100px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>❤️ Otto & Melissa ❤️</h1>
+
+<h2 id="contador"></h2>
+
+<p>
+Cada dia ao seu lado é um presente, Melissa.
+Este pequeno site foi feito com muito carinho só para você. 💕
+</p>
+
+<p>
+Obrigado por todas as risadas, pelos momentos juntos
+e por fazer meus dias mais felizes. ❤️
+</p>
+
+<h2 style="margin-top:60px;">
+Encontre os 5 corações escondidos ❤️
+</h2>
+
+<p id="progresso">0/5 encontrados</p>
+
+<div class="tesouro" id="c1" onclick="encontrou(this)">❤️</div>
+<div class="tesouro" id="c2" onclick="encontrou(this)">❤️</div>
+<div class="tesouro" id="c3" onclick="encontrou(this)">❤️</div>
+<div class="tesouro" id="c4" onclick="encontrou(this)">❤️</div>
+<div class="tesouro" id="c5" onclick="encontrou(this)">❤️</div>
+
+<div id="surpresa">
+
+<h2>🎉 Parabéns, Melissa!</h2>
+
+<p>
+Você encontrou todos os corações,
+mas a verdade é que você já encontrou o meu há muito tempo. ❤️
+</p>
+
+<p>
+Eu te amo muito e espero viver muitos momentos ao seu lado. 💕
+</p>
+
+<h2>
+Melissa, promete continuar criando memórias comigo? ❤️
+</h2>
+
+<button class="botao"
+onclick="alert('Eu te amo muito, Melissa! ❤️')">
+Sim!
+</button>
+
+<button
+class="botao"
+id="nao"
+ontouchstart="fugir()"
+onclick="fugir()">
+Não
+</button>
+
+<h3 style="margin-top:30px;">
+❤️ Otto + Melissa desde 28/12/2025 ❤️
+</h3>
+
+</div>
+
+<footer>
+💕 Feito com amor por Otto 💕
+</footer>
+
+</div>
+
+<script>
+
+const dataNamoro = new Date("2025-12-28");
+
+function atualizarContador() {
+    const hoje = new Date();
+
+    let anos = hoje.getFullYear() - dataNamoro.getFullYear();
+    let meses = hoje.getMonth() - dataNamoro.getMonth();
+    let dias = hoje.getDate() - dataNamoro.getDate();
+
+    if (dias < 0) {
+        meses--;
+        const ultimoMes =
+            new Date(
+                hoje.getFullYear(),
+                hoje.getMonth(),
+                0
+            ).getDate();
+
+        dias += ultimoMes;
+    }
+
+    if (meses < 0) {
+        anos--;
+        meses += 12;
+    }
+
+    document.getElementById("contador").innerHTML =
+        `❤️ Estamos juntos há ${anos} ano(s), ${meses} mês(es) e ${dias} dia(s). ❤️`;
+}
+
+atualizarContador();
+
+function criarCoracao(){
+    const coracao = document.createElement("div");
+
+    coracao.classList.add("coracao");
+    coracao.innerHTML = "❤";
+
+    coracao.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    coracao.style.animationDuration =
+        (Math.random() * 4 + 3) + "s";
+
+    document.body.appendChild(coracao);
+
+    setTimeout(() => {
+        coracao.remove();
+    },7000);
+}
+
+setInterval(criarCoracao,300);
+
+let encontrados = 0;
+
+function encontrou(coracao){
+    coracao.style.display = "none";
+
+    encontrados++;
+
+    document.getElementById("progresso")
+        .innerHTML =
+        `${encontrados}/5 encontrados`;
+
+    if(encontrados === 5){
+        document.getElementById("surpresa")
+            .style.display = "block";
+
+        window.scrollTo({
+            top:document.body.scrollHeight,
+            behavior:"smooth"
+        });
+    }
+}
+
+function fugir(){
+    const botao =
+        document.getElementById("nao");
+
+    botao.style.position = "fixed";
+
+    botao.style.left =
+        Math.random() *
+        (window.innerWidth - 120) + "px";
+
+    botao.style.top =
+        Math.random() *
+        (window.innerHeight - 60) + "px";
+}
+
+</script>
+
+</body>
+</html>
+```
